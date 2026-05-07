@@ -10,6 +10,7 @@ namespace ProjetoBancoCP2.Models
         [Column("CPF")]
         public string Cpf { get; set; }
 
+        [DataType(DataType.Date)]
         [Column("DT_NASCIMENTO")]
         public DateTime DataNascimento { get; set; }
     }

@@ -20,6 +20,6 @@ namespace ProjetoBancoCP2.Models
         public int IdAgencia { get; set; }
 
         [ForeignKey("IdAgencia")]
-        public Agencia Agencia { get; set; }
+        public Agencia? Agencia { get; set; }
     }
 }

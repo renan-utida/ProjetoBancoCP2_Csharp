@@ -20,14 +20,18 @@ namespace ProjetoBancoCP2.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
         {
-            return await _context.Clientes.ToListAsync();
+            return await _context.Clientes
+                .Include(c => c.Agencia)
+                .ToListAsync();
         }
 
         // GET: api/Clientes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Cliente>> GetCliente(int id)
         {
-            var cliente = await _context.Clientes.FindAsync(id);
+            var cliente = await _context.Clientes
+                .Include(c => c.Agencia)
+                .FirstOrDefaultAsync(c => c.IdCliente == id);
 
             if (cliente == null)
                 return NotFound(new { mensagem = "Cliente não encontrado." });
@@ -40,13 +44,13 @@ namespace ProjetoBancoCP2.Controllers
         public async Task<ActionResult<PessoaFisica>> PostPessoaFisica(PessoaFisica pf)
         {
             // Verifica se agência existe
-            var agenciaExiste = await _context.Agencias.AnyAsync(a => a.IdAgencia == pf.IdAgencia);
-            if (!agenciaExiste)
+            var agencia = await _context.Agencias.FirstOrDefaultAsync(a => a.IdAgencia == pf.IdAgencia);
+            if (agencia == null)
                 return BadRequest(new { mensagem = "Agência informada não existe." });
 
             // Verifica CPF duplicado
-            var cpfDuplicado = await _context.PessoasFisicas.AnyAsync(p => p.Cpf == pf.Cpf);
-            if (cpfDuplicado)
+            var cpfExistente = await _context.PessoasFisicas.FirstOrDefaultAsync(p => p.Cpf == pf.Cpf);
+            if (cpfExistente != null)
                 return BadRequest(new { mensagem = "CPF já cadastrado." });
 
             _context.PessoasFisicas.Add(pf);
@@ -60,13 +64,13 @@ namespace ProjetoBancoCP2.Controllers
         public async Task<ActionResult<PessoaJuridica>> PostPessoaJuridica(PessoaJuridica pj)
         {
             // Verifica se agência existe
-            var agenciaExiste = await _context.Agencias.AnyAsync(a => a.IdAgencia == pj.IdAgencia);
-            if (!agenciaExiste)
+            var agencia = await _context.Agencias.FirstOrDefaultAsync(a => a.IdAgencia == pj.IdAgencia);
+            if (agencia == null)
                 return BadRequest(new { mensagem = "Agência informada não existe." });
 
             // Verifica CNPJ duplicado
-            var cnpjDuplicado = await _context.PessoasJuridicas.AnyAsync(p => p.Cnpj == pj.Cnpj);
-            if (cnpjDuplicado)
+            var cnpjExistente = await _context.PessoasJuridicas.FirstOrDefaultAsync(p => p.Cnpj == pj.Cnpj);
+            if (cnpjExistente != null)
                 return BadRequest(new { mensagem = "CNPJ já cadastrado." });
 
             _context.PessoasJuridicas.Add(pj);
@@ -75,40 +79,67 @@ namespace ProjetoBancoCP2.Controllers
             return CreatedAtAction(nameof(GetCliente), new { id = pj.IdCliente }, pj);
         }
 
-        // PUT: api/Clientes/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCliente(int id, Cliente cliente)
+        // PUT: api/Clientes/pf/5
+        [HttpPut("pf/{id}")]
+        public async Task<IActionResult> PutPessoaFisica(int id, PessoaFisica pf)
         {
-            if (id != cliente.IdCliente)
+            if (id != pf.IdCliente)
                 return BadRequest(new { mensagem = "ID da URL não confere com o ID do corpo." });
 
-            _context.Entry(cliente).State = EntityState.Modified;
+            var pfExistente = await _context.PessoasFisicas.FindAsync(id);
+            if (pfExistente == null)
+                return NotFound(new { mensagem = "Cliente PF não encontrado." });
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClienteExists(id))
-                    return NotFound(new { mensagem = "Cliente não encontrado." });
-                else
-                    throw;
-            }
+            _context.Entry(pfExistente).CurrentValues.SetValues(pf);
+
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        // DELETE: api/Clientes/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCliente(int id)
+        // PUT: api/Clientes/pj/5
+        [HttpPut("pj/{id}")]
+        public async Task<IActionResult> PutPessoaJuridica(int id, PessoaJuridica pj)
         {
-            var cliente = await _context.Clientes.FindAsync(id);
+            if (id != pj.IdCliente)
+                return BadRequest(new { mensagem = "ID da URL não confere com o ID do corpo." });
 
-            if (cliente == null)
-                return NotFound(new { mensagem = "Cliente não encontrado." });
+            var pjExistente = await _context.PessoasJuridicas.FindAsync(id);
+            if (pjExistente == null)
+                return NotFound(new { mensagem = "Cliente PJ não encontrado." });
 
-            _context.Clientes.Remove(cliente);
+            _context.Entry(pjExistente).CurrentValues.SetValues(pj);
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // DELETE: api/Clientes/pf/5
+        [HttpDelete("pf/{id}")]
+        public async Task<IActionResult> DeletePessoaFisica(int id)
+        {
+            var pf = await _context.PessoasFisicas.FindAsync(id);
+
+            if (pf == null)
+                return NotFound(new { mensagem = "Cliente PF não encontrado." });
+
+            _context.PessoasFisicas.Remove(pf);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // DELETE: api/Clientes/pj/5
+        [HttpDelete("pj/{id}")]
+        public async Task<IActionResult> DeletePessoaJuridica(int id)
+        {
+            var pj = await _context.PessoasJuridicas.FindAsync(id);
+
+            if (pj == null)
+                return NotFound(new { mensagem = "Cliente PJ não encontrado." });
+
+            _context.PessoasJuridicas.Remove(pj);
             await _context.SaveChangesAsync();
 
             return NoContent();

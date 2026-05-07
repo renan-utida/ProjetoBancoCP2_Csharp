@@ -15,13 +15,13 @@ namespace ProjetoBancoCP2.Models
         public int IdCliente { get; set; }
 
         [ForeignKey("IdCliente")]
-        public Cliente Cliente { get; set; }
+        public Cliente? Cliente { get; set; }
 
         [Column("ID_PRODUTO")]
         public int IdProduto { get; set; }
 
         [ForeignKey("IdProduto")]
-        public Produto Produto { get; set; }
+        public Produto? Produto { get; set; }
 
         [Required]
         [StringLength(50)]

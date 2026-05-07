@@ -20,14 +20,22 @@ namespace ProjetoBancoCP2.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Contratacao>>> GetContratacoes()
         {
-            return await _context.Contratacoes.ToListAsync();
+            return await _context.Contratacoes
+                .Include(c => c.Cliente)
+                    .ThenInclude(c => c.Agencia)
+                .Include(c => c.Produto)
+                .ToListAsync();
         }
 
         // GET: api/Contratacoes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Contratacao>> GetContratacao(int id)
         {
-            var contratacao = await _context.Contratacoes.FindAsync(id);
+            var contratacao = await _context.Contratacoes
+                .Include(c => c.Cliente)
+                    .ThenInclude(c => c.Agencia)
+                .Include(c => c.Produto)
+                .FirstOrDefaultAsync(c => c.IdContratacao == id);
 
             if (contratacao == null)
                 return NotFound(new { mensagem = "Contratação não encontrada." });
@@ -40,13 +48,13 @@ namespace ProjetoBancoCP2.Controllers
         public async Task<ActionResult<Contratacao>> PostContratacao(Contratacao contratacao)
         {
             // Verifica se cliente existe
-            var clienteExiste = await _context.Clientes.AnyAsync(c => c.IdCliente == contratacao.IdCliente);
-            if (!clienteExiste)
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.IdCliente == contratacao.IdCliente);
+            if (cliente == null)
                 return NotFound(new { mensagem = "Cliente não encontrado." });
 
             // Verifica se produto existe
-            var produtoExiste = await _context.Produtos.AnyAsync(p => p.IdProduto == contratacao.IdProduto);
-            if (!produtoExiste)
+            var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.IdProduto == contratacao.IdProduto);
+            if (produto == null)
                 return NotFound(new { mensagem = "Produto não encontrado." });
 
             contratacao.Status = "PENDENTE";
