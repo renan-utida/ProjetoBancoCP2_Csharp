@@ -18,8 +18,8 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Data\" />
     <Folder Include="docs\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
