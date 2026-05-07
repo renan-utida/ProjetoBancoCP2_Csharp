@@ -1,0 +1,924 @@
+{
+	"info": {
+		"_postman_id": "a3c5a54d-cc32-4a59-8ee4-98902333f333",
+		"name": "ProjetoBancoCP2",
+		"description": "35 Requisições,\n\nOrdenei em ordem numérica para rodar todas elas em ordem crescente para testar perfeitamente",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37874153"
+	},
+	"item": [
+		{
+			"name": "Agencias",
+			"item": [
+				{
+					"name": "01 - Cadastrar Agencia",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nmAgencia\": \"Agência Centro SP\",\n  \"cep\": \"01310100\",\n  \"dsEndereco\": \"Av. Paulista, 1000 - Bela Vista, São Paulo\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Agencias",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Agencias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02 - Buscar Agencia por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Agencias/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Agencias",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03 - Buscar Agencia Inexistente (404)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Agencias/999",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Agencias",
+								"999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "20 - Listar Todas as Agencias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Agencias",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Agencias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "21 - Atualizar Agencia",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idAgencia\": 1,\n  \"nmAgencia\": \"Agência Paulista Atualizada\",\n  \"cep\": \"01310200\",\n  \"dsEndereco\": \"Av. Paulista, 2000 - Bela Vista, São Paulo\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Agencias/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Agencias",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "35 - Deletar Agencia",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Agencias/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Agencias",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "04 - Cadastrar PessoaFisica",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nmCliente\": \"Renan Dias\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2003-02-16\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pf",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05 - Cadastrar PF - CPF Duplicado (400)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nmCliente\": \"Renan Dias\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2003-02-16\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pf",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "08 - Cadastrar PF - Agencia Inexistente (400)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nmCliente\": \"Cliente Sem Agencia\",\n  \"idAgencia\": 999,\n  \"cpf\": \"99999999999\",\n  \"dataNascimento\": \"2000-01-01\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pf",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "06 - Cadastrar PessoaJuridica",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nmCliente\": \"Empresa Teste LTDA\",\n  \"idAgencia\": 1,\n  \"cnpj\": \"12345678000195\",\n  \"razaoSocial\": \"Empresa Teste Ltda\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pj",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pj"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "07 - Cadastrar PJ - CNPJ Duplicado (400)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nmCliente\": \"Empresa Teste LTDA\",\n  \"idAgencia\": 1,\n  \"cnpj\": \"12345678000195\",\n  \"razaoSocial\": \"Empresa Teste Ltda\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pj",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pj"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "09 - Buscar Cliente por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10 - Buscar Cliente Inexistente (404)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/999",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "22 - Listar Todos os Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "23 - Atualizar PessoaFisica",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idCliente\": 1,\n  \"nmCliente\": \"Renan Dias Utida Atualizado\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2003-02-16\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pf/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pf",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "24 - Atualizar PF - ID Divergente (400)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idCliente\": 1,\n  \"nmCliente\": \"Renan Dias\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2003-02-16\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pf/99",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pf",
+								"99"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "25 - Atualizar PF com ID de PJ (404)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idCliente\": 2,\n  \"nmCliente\": \"Tentando atualizar PJ como PF\",\n  \"idAgencia\": 1,\n  \"cpf\": \"11111111111\",\n  \"dataNascimento\": \"2000-01-01\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pf/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pf",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "26 - Atualizar PessoaJuridica",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idCliente\": 2,\n  \"nmCliente\": \"Empresa Teste Atualizada LTDA\",\n  \"idAgencia\": 1,\n  \"cnpj\": \"12345678000195\",\n  \"razaoSocial\": \"Empresa Teste Atualizada Ltda\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pj/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pj",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "33 - Deletar PessoaFisica",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pf/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pf",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "34 - Deletar PessoaJuridica",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pj/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pj",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Emprestimos",
+			"item": [
+				{
+					"name": "11 - Cadastrar Emprestimo (APROVADO)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nmProduto\": \"Empréstimo Pessoal\",\n  \"valorSolicitado\": 10000,\n  \"taxaJuros\": 2.5,\n  \"prazoMeses\": 24,\n  \"valorParcela\": 0\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Emprestimos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Emprestimos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12 - Cadastrar Emprestimo (REPROVADO - score)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nmProduto\": \"Empréstimo Alto Risco\",\n  \"valorSolicitado\": 100000,\n  \"taxaJuros\": 1.5,\n  \"prazoMeses\": 120,\n  \"valorParcela\": 0\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Emprestimos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Emprestimos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "13 - Buscar Emprestimo por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Emprestimos/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Emprestimos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "14 - Buscar Emprestimo Inexistente (404)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Emprestimos/999",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Emprestimos",
+								"999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "27 - Listar Todos os Emprestimos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Emprestimos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Emprestimos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "28 - Atualizar Emprestimo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idProduto\": 1,\n  \"nmProduto\": \"Empréstimo Pessoal Atualizado\",\n  \"valorSolicitado\": 8000,\n  \"taxaJuros\": 2.0,\n  \"prazoMeses\": 12,\n  \"valorParcela\": 0\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Emprestimos/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Emprestimos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "32 - Deletar Emprestimo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Emprestimos/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Emprestimos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contratacoes",
+			"item": [
+				{
+					"name": "15 - Solicitar Contratacao (202)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idCliente\": 1,\n  \"idProduto\": 1\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Contratacoes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Contratacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "16 - Contratar - Cliente Inexistente (404)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idCliente\": 999,\n  \"idProduto\": 1\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Contratacoes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Contratacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "17 - Contratar - Produto Inexistente (404)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idCliente\": 1,\n  \"idProduto\": 999\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Contratacoes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Contratacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "18 - Buscar Contratacao por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Contratacoes/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Contratacoes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "19 - Buscar Contratacao Inexistente (404)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Contratacoes/999",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Contratacoes",
+								"999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "29 - Listar Todas as Contratacoes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Contratacoes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Contratacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "30 - Atualizar Status Contratacao (APROVADO)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idContratacao\": 1,\n  \"idCliente\": 1,\n  \"idProduto\": 1,\n  \"status\": \"APROVADO\",\n  \"dtSolicitacao\": \"2026-05-07T00:00:00\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Contratacoes/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Contratacoes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "31 - Deletar Contratacao",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7106/api/Contratacoes/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Contratacoes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
