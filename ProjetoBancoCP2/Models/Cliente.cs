@@ -7,6 +7,7 @@ namespace ProjetoBancoCP2.Models
     public abstract class Cliente
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("ID_CLIENTE")]
         public int IdCliente { get; set; }
 

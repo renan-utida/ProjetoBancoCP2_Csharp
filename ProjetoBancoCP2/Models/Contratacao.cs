@@ -7,6 +7,7 @@ namespace ProjetoBancoCP2.Models
     public class Contratacao
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("ID_CONTRATACAO")]
         public int IdContratacao { get; set; }
 

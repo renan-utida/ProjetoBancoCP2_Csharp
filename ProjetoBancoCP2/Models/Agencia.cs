@@ -7,6 +7,7 @@ namespace ProjetoBancoCP2.Models
     public class Agencia
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("ID_AGENCIA")]
         public int IdAgencia { get; set; }
 

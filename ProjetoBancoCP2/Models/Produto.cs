@@ -7,6 +7,7 @@ namespace ProjetoBancoCP2.Models
     public abstract class Produto
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("ID_PRODUTO")]
         public int IdProduto { get; set; }
 
