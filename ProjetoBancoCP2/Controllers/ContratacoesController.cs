@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoBancoCP2.Data;
 using ProjetoBancoCP2.Models;
@@ -35,22 +30,41 @@ namespace ProjetoBancoCP2.Controllers
             var contratacao = await _context.Contratacoes.FindAsync(id);
 
             if (contratacao == null)
-            {
-                return NotFound();
-            }
+                return NotFound(new { mensagem = "Contratação não encontrada." });
 
             return contratacao;
         }
 
+        // POST: api/Contratacoes
+        [HttpPost]
+        public async Task<ActionResult<Contratacao>> PostContratacao(Contratacao contratacao)
+        {
+            // Verifica se cliente existe
+            var clienteExiste = await _context.Clientes.AnyAsync(c => c.IdCliente == contratacao.IdCliente);
+            if (!clienteExiste)
+                return NotFound(new { mensagem = "Cliente não encontrado." });
+
+            // Verifica se produto existe
+            var produtoExiste = await _context.Produtos.AnyAsync(p => p.IdProduto == contratacao.IdProduto);
+            if (!produtoExiste)
+                return NotFound(new { mensagem = "Produto não encontrado." });
+
+            contratacao.Status = "PENDENTE";
+            contratacao.DtSolicitacao = DateTime.Now;
+
+            _context.Contratacoes.Add(contratacao);
+            await _context.SaveChangesAsync();
+
+            // 202 Accepted — simula envio para fila de processamento
+            return AcceptedAtAction(nameof(GetContratacao), new { id = contratacao.IdContratacao }, contratacao);
+        }
+
         // PUT: api/Contratacoes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutContratacao(int id, Contratacao contratacao)
         {
             if (id != contratacao.IdContratacao)
-            {
-                return BadRequest();
-            }
+                return BadRequest(new { mensagem = "ID da URL não confere com o ID do corpo." });
 
             _context.Entry(contratacao).State = EntityState.Modified;
 
@@ -61,27 +75,12 @@ namespace ProjetoBancoCP2.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!ContratacaoExists(id))
-                {
-                    return NotFound();
-                }
+                    return NotFound(new { mensagem = "Contratação não encontrada." });
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
-        }
-
-        // POST: api/Contratacoes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Contratacao>> PostContratacao(Contratacao contratacao)
-        {
-            _context.Contratacoes.Add(contratacao);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetContratacao", new { id = contratacao.IdContratacao }, contratacao);
         }
 
         // DELETE: api/Contratacoes/5
@@ -89,10 +88,9 @@ namespace ProjetoBancoCP2.Controllers
         public async Task<IActionResult> DeleteContratacao(int id)
         {
             var contratacao = await _context.Contratacoes.FindAsync(id);
+
             if (contratacao == null)
-            {
-                return NotFound();
-            }
+                return NotFound(new { mensagem = "Contratação não encontrada." });
 
             _context.Contratacoes.Remove(contratacao);
             await _context.SaveChangesAsync();

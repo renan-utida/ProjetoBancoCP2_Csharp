@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoBancoCP2.Data;
 using ProjetoBancoCP2.Models;
+using ProjetoBancoCP2.Services;
 
 namespace ProjetoBancoCP2.Controllers
 {
@@ -15,10 +11,12 @@ namespace ProjetoBancoCP2.Controllers
     public class EmprestimosController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly EmprestimoService _emprestimoService;
 
-        public EmprestimosController(AppDbContext context)
+        public EmprestimosController(AppDbContext context, EmprestimoService emprestimoService)
         {
             _context = context;
+            _emprestimoService = emprestimoService;
         }
 
         // GET: api/Emprestimos
@@ -35,22 +33,42 @@ namespace ProjetoBancoCP2.Controllers
             var emprestimo = await _context.Emprestimos.FindAsync(id);
 
             if (emprestimo == null)
-            {
-                return NotFound();
-            }
+                return NotFound(new { mensagem = "Empréstimo não encontrado." });
 
             return emprestimo;
         }
 
+        // POST: api/Emprestimos
+        [HttpPost]
+        public async Task<ActionResult<Emprestimo>> PostEmprestimo(Emprestimo emprestimo)
+        {
+            // Calcula parcela e avalia score automaticamente
+            emprestimo = _emprestimoService.PreencherEmprestimo(emprestimo);
+            var score = _emprestimoService.AvaliarScore(emprestimo.ValorSolicitado, emprestimo.PrazoMeses);
+
+            if (score == "REPROVADO")
+                return BadRequest(new { mensagem = "Empréstimo reprovado por score de crédito.", score });
+
+            _context.Emprestimos.Add(emprestimo);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetEmprestimo), new { id = emprestimo.IdProduto }, new
+            {
+                emprestimo,
+                score,
+                mensagem = "Empréstimo criado com sucesso."
+            });
+        }
+
         // PUT: api/Emprestimos/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmprestimo(int id, Emprestimo emprestimo)
         {
             if (id != emprestimo.IdProduto)
-            {
-                return BadRequest();
-            }
+                return BadRequest(new { mensagem = "ID da URL não confere com o ID do corpo." });
+
+            // Recalcula parcela ao atualizar
+            emprestimo = _emprestimoService.PreencherEmprestimo(emprestimo);
 
             _context.Entry(emprestimo).State = EntityState.Modified;
 
@@ -61,27 +79,12 @@ namespace ProjetoBancoCP2.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!EmprestimoExists(id))
-                {
-                    return NotFound();
-                }
+                    return NotFound(new { mensagem = "Empréstimo não encontrado." });
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
-        }
-
-        // POST: api/Emprestimos
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Emprestimo>> PostEmprestimo(Emprestimo emprestimo)
-        {
-            _context.Emprestimos.Add(emprestimo);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetEmprestimo", new { id = emprestimo.IdProduto }, emprestimo);
         }
 
         // DELETE: api/Emprestimos/5
@@ -89,10 +92,9 @@ namespace ProjetoBancoCP2.Controllers
         public async Task<IActionResult> DeleteEmprestimo(int id)
         {
             var emprestimo = await _context.Emprestimos.FindAsync(id);
+
             if (emprestimo == null)
-            {
-                return NotFound();
-            }
+                return NotFound(new { mensagem = "Empréstimo não encontrado." });
 
             _context.Emprestimos.Remove(emprestimo);
             await _context.SaveChangesAsync();
@@ -106,3 +108,4 @@ namespace ProjetoBancoCP2.Controllers
         }
     }
 }
+ 

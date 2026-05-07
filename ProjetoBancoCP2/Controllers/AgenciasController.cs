@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjetoBancoCP2.Data;
 using ProjetoBancoCP2.Models;
@@ -35,22 +30,27 @@ namespace ProjetoBancoCP2.Controllers
             var agencia = await _context.Agencias.FindAsync(id);
 
             if (agencia == null)
-            {
-                return NotFound();
-            }
+                return NotFound(new { mensagem = "Agência não encontrada." });
 
             return agencia;
         }
 
+        // POST: api/Agencias
+        [HttpPost]
+        public async Task<ActionResult<Agencia>> PostAgencia(Agencia agencia)
+        {
+            _context.Agencias.Add(agencia);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAgencia), new { id = agencia.IdAgencia }, agencia);
+        }
+
         // PUT: api/Agencias/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAgencia(int id, Agencia agencia)
         {
             if (id != agencia.IdAgencia)
-            {
-                return BadRequest();
-            }
+                return BadRequest(new { mensagem = "ID da URL não confere com o ID do corpo." });
 
             _context.Entry(agencia).State = EntityState.Modified;
 
@@ -61,27 +61,12 @@ namespace ProjetoBancoCP2.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!AgenciaExists(id))
-                {
-                    return NotFound();
-                }
+                    return NotFound(new { mensagem = "Agência não encontrada." });
                 else
-                {
                     throw;
-                }
             }
 
             return NoContent();
-        }
-
-        // POST: api/Agencias
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Agencia>> PostAgencia(Agencia agencia)
-        {
-            _context.Agencias.Add(agencia);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetAgencia", new { id = agencia.IdAgencia }, agencia);
         }
 
         // DELETE: api/Agencias/5
@@ -89,10 +74,9 @@ namespace ProjetoBancoCP2.Controllers
         public async Task<IActionResult> DeleteAgencia(int id)
         {
             var agencia = await _context.Agencias.FindAsync(id);
+
             if (agencia == null)
-            {
-                return NotFound();
-            }
+                return NotFound(new { mensagem = "Agência não encontrada." });
 
             _context.Agencias.Remove(agencia);
             await _context.SaveChangesAsync();
