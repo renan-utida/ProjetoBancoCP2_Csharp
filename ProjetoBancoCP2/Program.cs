@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetoBancoCP2.Data;
+using ProjetoBancoCP2.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("OracleConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseOracle(connectionString));
+
+builder.Services.AddScoped<EmprestimoService>();
 
 var app = builder.Build();
 

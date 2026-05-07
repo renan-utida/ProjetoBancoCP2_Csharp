@@ -16,7 +16,7 @@ namespace ProjetoBancoCP2.Models
         [Column("NM_AGENCIA")]
         public string NmAgencia { get; set; }
 
-        [Required]
+        [Required] 
         [StringLength(8)]
         [Column("CEP")]
         public string Cep { get; set; }
