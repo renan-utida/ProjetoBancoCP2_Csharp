@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a3c5a54d-cc32-4a59-8ee4-98902333f333",
+		"_postman_id": "515453ae-2eaf-4886-9885-2f4f6f5813ee",
 		"name": "ProjetoBancoCP2",
 		"description": "35 Requisições,\n\nOrdenei em ordem numérica para rodar todas elas em ordem crescente para testar perfeitamente",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -45,7 +45,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:7106/api/Agencias/1",
+							"raw": "https://localhost:7106/api/Agencias/4",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -54,7 +54,7 @@
 							"path": [
 								"api",
 								"Agencias",
-								"1"
+								"4"
 							]
 						}
 					},
@@ -169,7 +169,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nmCliente\": \"Renan Dias\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2003-02-16\"\n}"
+							"raw": "{\n  \"nmCliente\": \"Renan Dias\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2001-01-01\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:7106/api/Clientes/pf",
@@ -199,37 +199,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nmCliente\": \"Renan Dias\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2003-02-16\"\n}"
-						},
-						"url": {
-							"raw": "https://localhost:7106/api/Clientes/pf",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "7106",
-							"path": [
-								"api",
-								"Clientes",
-								"pf"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "08 - Cadastrar PF - Agencia Inexistente (400)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"nmCliente\": \"Cliente Sem Agencia\",\n  \"idAgencia\": 999,\n  \"cpf\": \"99999999999\",\n  \"dataNascimento\": \"2000-01-01\"\n}"
+							"raw": "{\n  \"nmCliente\": \"Joao Lucas\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2002-02-02\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:7106/api/Clientes/pf",
@@ -302,6 +272,36 @@
 								"api",
 								"Clientes",
 								"pj"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "08 - Cadastrar PF - Agencia Inexistente (400)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nmCliente\": \"Cliente Sem Agencia\",\n  \"idAgencia\": 999,\n  \"cpf\": \"99999999999\",\n  \"dataNascimento\": \"2000-01-01\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:7106/api/Clientes/pf",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7106",
+							"path": [
+								"api",
+								"Clientes",
+								"pf"
 							]
 						}
 					},
@@ -381,7 +381,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idCliente\": 1,\n  \"nmCliente\": \"Renan Dias Utida Atualizado\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2003-02-16\"\n}"
+							"raw": "{\n  \"idCliente\": 1,\n  \"nmCliente\": \"Renan Dias Atualizado\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2003-03-03\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:7106/api/Clientes/pf/1",
@@ -412,7 +412,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"idCliente\": 1,\n  \"nmCliente\": \"Renan Dias\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2003-02-16\"\n}"
+							"raw": "{\n  \"idCliente\": 1,\n  \"nmCliente\": \"Renan Dias\",\n  \"idAgencia\": 1,\n  \"cpf\": \"12345678901\",\n  \"dataNascimento\": \"2003-03-03\"\n}"
 						},
 						"url": {
 							"raw": "https://localhost:7106/api/Clientes/pf/99",
