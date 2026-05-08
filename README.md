@@ -32,7 +32,7 @@ Backend de um banco digital desenvolvido em **ASP.NET Core Web API (.NET 8)** co
 
 ## 3. Decisão de Modelagem de Filas
 
-> ⚠️ **Nota:** A implementação de mensageria com RabbitMQ (filas, consumers, Docker) não foi trabalhada em aula até a data de entrega deste checkpoint, portanto não faz parte do escopo avaliado desta entrega.
+> **Nota:** A implementação de mensageria com RabbitMQ (filas, consumers, Docker) não foi trabalhada em aula até a data de entrega deste checkpoint, portanto não faz parte do escopo avaliado desta entrega.
 
 O endpoint `POST /api/contratacoes` simula o comportamento assíncrono retornando **202 Accepted**, com o status da contratação iniciando como `PENDENTE`. O status pode ser atualizado via `PUT /api/contratacoes/{id}` para refletir o resultado do processamento (`APROVADO`, `REPROVADO`, `ANALISE`).
 
@@ -465,32 +465,297 @@ Para evitar erros de chave estrangeira, siga esta ordem:
 
 ## 7. Testes
 
-> ⚠️ **Nota:** Testes automatizados com `dotnet test` não foram implementados neste checkpoint, pois este conteúdo não foi trabalhado em aula até a data de entrega.
+> **Nota:** Testes automatizados com `dotnet test` não foram implementados neste checkpoint, pois este conteúdo não foi trabalhado em aula até a data de entrega.
 
 Os fluxos críticos foram validados manualmente via **Swagger UI** e **Postman**, cobrindo todos os cenários obrigatórios:
 
 | Fluxo Crítico | Validação | Status |
 |---|---|---|
-| Cadastro PF com CPF duplicado | Retorna `400` com mensagem | ✅ |
-| Cadastro PJ com CNPJ duplicado | Retorna `400` com mensagem | ✅ |
-| Vincular cliente a agência inexistente | Retorna `400` com mensagem | ✅ |
-| Contratação válida | Retorna `202 Accepted` com status `PENDENTE` | ✅ |
-| Contratação com cliente inexistente | Retorna `404` com mensagem | ✅ |
-| Consulta de status da contratação | Retorna contratação completa com cliente e produto | ✅ |
-| Empréstimo reprovado por score | Retorna `400` com score `REPROVADO` | ✅ |
-| Cálculo automático de parcela (fórmula Price) | `valorParcela` calculado automaticamente | ✅ |
+| Cadastro PF com CPF duplicado | Retorna `400` com mensagem | Correto |
+| Cadastro PJ com CNPJ duplicado | Retorna `400` com mensagem | Correto |
+| Vincular cliente a agência inexistente | Retorna `400` com mensagem | Correto |
+| Contratação válida | Retorna `202 Accepted` com status `PENDENTE` | Correto |
+| Contratação com cliente inexistente | Retorna `404` com mensagem | Correto |
+| Consulta de status da contratação | Retorna contratação completa com cliente e produto | Correto |
+| Empréstimo reprovado por score | Retorna `400` com score `REPROVADO` | Correto |
+| Cálculo automático de parcela (fórmula Price) | `valorParcela` calculado automaticamente | Correto |
 
 ---
 
 ## 8. Mensageria (RabbitMQ)
 
-> ⚠️ **Nota:** A implementação de filas com RabbitMQ não foi trabalhada em aula até a data de entrega deste checkpoint e não faz parte do escopo avaliado.
+> **Nota:** A implementação de filas com RabbitMQ não foi trabalhada em aula até a data de entrega deste checkpoint e não faz parte do escopo avaliado.
 
 ---
 
-## 9. Evidências de Funcionamento
+## 9. Evidências de Funcionamento (Swagger)
 
-> Prints do Swagger e Postman demonstrando os endpoints funcionando, incluindo contratação com status `APROVADO`, estão disponíveis na pasta `docs/`.
+### **ProjetoBancoCP2:**
+
+#### **Endpoints**
+
+<img width="1919" height="1028" alt="image" src="https://github.com/user-attachments/assets/1dfbe529-24fd-4a5f-8a6a-446d2ac3bf75" />
+
+<img width="1918" height="949" alt="image" src="https://github.com/user-attachments/assets/be415165-1b64-4f24-a674-06a4cc983c6d" />
+
+---
+
+Segue uma possível ordem para que não tenhamos problemas os testes
+
+#### Agencias
+
+---
+
+**01 - Cadastrar Agencia (POST)**
+
+<img width="1161" height="898" alt="image" src="https://github.com/user-attachments/assets/c237466f-c23a-4849-947a-980d66b8740d" />
+
+---
+
+**02 - Buscas Agencia por ID (GET)**
+
+<img width="1157" height="777" alt="image" src="https://github.com/user-attachments/assets/4ac7c9d9-2d1b-416a-8323-8241162755cf" />
+
+---
+
+**03 - Buscar Agencia Inexistente - 404 (GET)**
+
+<img width="1156" height="713" alt="image" src="https://github.com/user-attachments/assets/662d15e3-6c87-4c16-8f23-3b4aa33b2e1b" />
+
+---
+
+#### Clientes
+
+---
+
+**04 - Cadastrar PessoaFísica (POST)**
+
+<img width="1081" height="916" alt="image" src="https://github.com/user-attachments/assets/3f21da95-bb84-4555-b918-b4572b413faf" />
+
+---
+
+**05 - Cadastrar PF - CPF Duplicado - 400 (POST)**
+
+<img width="1079" height="914" alt="image" src="https://github.com/user-attachments/assets/69166c57-87d6-4744-86b2-448e01388e83" />
+
+---
+
+**06 - Cadastrar PessoaJuridica (POST)**
+
+<img width="1078" height="922" alt="image" src="https://github.com/user-attachments/assets/2b7456e3-67ed-4a62-83e0-9a827aac1561" />
+
+---
+
+**07 - Cadastrar PJ - CNPJ Duplicado - 400 (POST)**
+
+<img width="1080" height="922" alt="image" src="https://github.com/user-attachments/assets/d659c610-d962-46c1-90f2-ea6d083cbacf" />
+
+---
+
+**08 - Cadastrar PF - Agencia Inexistente - 400 (POST)**
+
+<img width="1084" height="930" alt="image" src="https://github.com/user-attachments/assets/5aec9e11-d73f-4fd0-a9b5-fddf1e070d62" />
+
+---
+
+**09 - Buscar Cliente por ID (GET)**
+
+<img width="1098" height="741" alt="image" src="https://github.com/user-attachments/assets/18eafede-a03d-454e-a868-e2983ecd388c" />
+
+---
+
+**10 - Buscar Cliente Inexistente - 404 (GET)**
+
+<img width="1093" height="669" alt="image" src="https://github.com/user-attachments/assets/5dde7264-26fd-4786-8275-ec77d9b7d8f0" />
+
+---
+
+#### Emprestimos
+
+---
+
+**11 - Cadastrar Emprestimo - APROVADO (POST)**
+
+<img width="1081" height="935" alt="image" src="https://github.com/user-attachments/assets/5d6cec95-ce45-41e0-8944-89f0e7743d62" />
+
+---
+
+**12 - Cadastrar Emprestimo - REPROVADO, score (POST)**
+
+<img width="1077" height="941" alt="image" src="https://github.com/user-attachments/assets/389c95a0-ea4b-4941-ad9e-ac3dd3a21c4a" />
+
+---
+
+**13 - Buscar Emprestimo por ID (GET)**
+
+<img width="1081" height="690" alt="image" src="https://github.com/user-attachments/assets/0740e143-2d0f-4247-ab62-910aeb4d8daf" />
+
+---
+
+**14 - Buscar Emprestimo Inexistente - 404 (GET)**
+
+<img width="1081" height="667" alt="image" src="https://github.com/user-attachments/assets/495d8691-cde6-40b2-b249-00a3286b2895" />
+
+---
+
+#### Contratacoes
+
+---
+
+**15 - Solicitar Contratacao - 202 (POST)**
+
+<img width="1085" height="940" alt="image" src="https://github.com/user-attachments/assets/6d5aecdb-fd32-4a37-b11d-355e40eed543" />
+
+---
+
+**16 - Contratar - Cliente Inexistente - 404 (POST)**
+
+<img width="1080" height="912" alt="image" src="https://github.com/user-attachments/assets/4a35e1ee-593b-47da-9c9b-488bcb369ca4" />
+
+---
+
+**17 - Contratar - Produto Inexistente - 404 (POST)**
+
+<img width="1081" height="913" alt="image" src="https://github.com/user-attachments/assets/7930122f-0f9f-4c24-ab17-4ae72c848405" />
+
+---
+
+**18 - Buscar Contratacao por ID (GET)**
+
+<img width="1079" height="831" alt="image" src="https://github.com/user-attachments/assets/202b49a0-950b-426d-b7ab-f018f466b1cb" />
+
+---
+
+**19 - Buscar Contratacao Inexistente - 404 (GET)**
+
+<img width="1083" height="671" alt="image" src="https://github.com/user-attachments/assets/85d98c80-0b6a-4d39-8095-6abeafbab4db" />
+
+---
+
+#### Agencia
+
+---
+
+**20 - Listar Todas as Agencias (GET)**
+
+<img width="1088" height="703" alt="image" src="https://github.com/user-attachments/assets/d3550613-4a3a-4df8-bb5b-1e1cf082412e" />
+
+
+**21 - Atualizar Agencia (PUT)**
+
+<img width="1082" height="910" alt="image" src="https://github.com/user-attachments/assets/ef1ac39c-b763-477a-a47f-e77ddb37a8bd" />
+
+---
+
+#### Clientes
+
+---
+
+**22 - Listar Todas os Clientes (GET)**
+
+<img width="1079" height="802" alt="image" src="https://github.com/user-attachments/assets/47a1a1d5-2f4c-4792-8cdc-139ce762f494" />
+
+---
+
+**23 - Atualizar PessoaFisica (PUT)**
+
+<img width="1081" height="896" alt="image" src="https://github.com/user-attachments/assets/b4caceb5-9a66-4c5e-90fc-d863c2073816" />
+
+---
+
+**24 - Atualizar PF - ID Divergente - 400 (PUT)**
+
+<img width="1079" height="930" alt="image" src="https://github.com/user-attachments/assets/f025e099-8a3e-4811-a87f-4a4c2c7184a2" />
+
+---
+
+**25 - Atualizar PF com ID de PJ - 404 (PUT)**
+
+<img width="1082" height="932" alt="image" src="https://github.com/user-attachments/assets/d8257dc2-7d52-4709-8b09-be189a177b0b" />
+
+---
+
+**26 - Atualizar PessoaJuridica (PUT)**
+
+<img width="1081" height="920" alt="image" src="https://github.com/user-attachments/assets/df2354b4-a0ee-4141-aa5b-45794da5b5e7" />
+
+---
+
+#### Emprestimos
+
+---
+
+**27 - Listar Todos os Emprestimos (GET)**
+
+<img width="1106" height="667" alt="image" src="https://github.com/user-attachments/assets/acd83a97-bcb6-4558-b1a2-465267f3fff5" />
+
+---
+
+**28 - Atualizar Emprestimo (PUT)**
+
+<img width="1099" height="936" alt="image" src="https://github.com/user-attachments/assets/dc51f885-387d-49e5-b6c9-0d06f7cb2724" />
+
+---
+
+#### Contratacoes
+
+---
+
+**29 - Listar Todas as Contratacoes (GET)**
+
+<img width="1114" height="772" alt="image" src="https://github.com/user-attachments/assets/fe586a77-75ae-4f1f-86b2-c132b54758bb" />
+
+---
+
+**30 - Atualizar Status Contratacao - APROVADO (PUT)**
+
+<img width="1095" height="921" alt="image" src="https://github.com/user-attachments/assets/bcb0c2b0-7613-4224-8a81-8364a2a00eb2" />
+
+---
+
+#### Delete
+
+---
+
+Para deletar, é recomendado remover:
+
+Contratacao >> Emprestimos >> Clientes >> Agencias
+
+- Delete a contratação antes do cliente e do empréstimo, senão vai dar erro de FK!
+  
+---
+
+**31 - Deletar Contratacao (DEL)**
+
+<img width="1078" height="568" alt="image" src="https://github.com/user-attachments/assets/f8524911-ca7b-4bb7-91b7-a598994f2a83" />
+  
+---
+
+**32 - Deletar Emprestimo (DEL)**
+
+<img width="1076" height="645" alt="image" src="https://github.com/user-attachments/assets/892170fa-06e5-4b4a-a4a7-84c0a01721d6" />
+  
+---
+
+**33 - Deletar PessoaFisica (DEL)**
+
+<img width="1072" height="569" alt="image" src="https://github.com/user-attachments/assets/8c435174-b7a7-48e4-89b6-3d9b05ba53c9" />
+  
+---
+
+**34 - Deletar PessoaJuridica (DEL)**
+
+<img width="1080" height="568" alt="image" src="https://github.com/user-attachments/assets/31f41a6f-fa43-45b5-ba36-df8c26e6e1f9" />
+  
+---
+
+**35 - Deletar Agencia (DEL)**
+
+<img width="1081" height="567" alt="image" src="https://github.com/user-attachments/assets/cbb9259a-acf8-441f-9029-f0f338c8bb82" />
+  
+---
+
+> Tem as requisições disponíveis no Swagger (F5) e no Postman (docs/postman/)
 
 ---
 
