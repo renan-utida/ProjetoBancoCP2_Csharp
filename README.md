@@ -759,6 +759,52 @@ Contratacao >> Emprestimos >> Clientes >> Agencias
 
 ---
 
+## Arquitetura do Projeto
+
+```
+ProjetoBancoCP2/
+│
+├── Controllers/
+│   ├── AgenciasController.cs
+│   ├── ClientesController.cs
+│   ├── ContratacoesController.cs
+│   └── EmprestimosController.cs
+│
+├── Data/
+│   └── AppDbContext.cs
+│
+├── Migrations/
+│   └── (gerado automaticamente pelo EF Core)
+│
+├── Models/
+│   ├── Agencia.cs
+│   ├── Cliente.cs          ← abstract
+│   ├── PessoaFisica.cs     ← herda Cliente
+│   ├── PessoaJuridica.cs   ← herda Cliente
+│   ├── Produto.cs          ← abstract
+│   ├── Emprestimo.cs       ← herda Produto
+│   └── Contratacao.cs
+│
+├── Services/
+│   └── EmprestimoService.cs
+│
+├── docs/
+│   ├── diagram/
+│   │   ├── Diagrama_CP2_C#.drawio
+│   │   └── Diagrama_CP2_C#.png
+│   ├── postman/
+│   │   └── ProjetoBancoCP2_postman_collection.json
+│   ├── ProjetoBancoCP2_Evidências.pdf
+│   └── README.md (Cópia)
+│
+├── appsettings.json
+├── appsettings.Development.json
+├── Program.cs
+└── README.md
+```
+
+---
+
 ## Stack Utilizada
 
 | Camada | Tecnologia |
