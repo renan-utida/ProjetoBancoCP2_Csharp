@@ -1,6 +1,12 @@
 # ProjetoBancoCP2 — Backend Banco Digital
 
-Backend de um banco digital desenvolvido em **ASP.NET Core Web API (.NET 8)** com **Entity Framework Core** e **Oracle Database**. Projeto avaliativo da disciplina de Engenharia de Software — FIAP - Turma 3ESPW 2026.
+Backend de um banco digital desenvolvido em **ASP.NET Core Web API (.NET 8)** com **Entity Framework Core** e **Oracle Database**. Projeto avaliativo da disciplina de Engenharia de Software — FIAP.
+
+**Turma** - 3ESPW.
+
+**Professor** - Rafael Santos Novo Pereira
+
+**Link Repositório** - [Repositório GitHub ProjetoBancoCP2](https://github.com/renan-utida/ProjetoBancoCP2_Csharp)
 
 ---
 
@@ -36,9 +42,14 @@ Caso fosse implementado com RabbitMQ, a decisão seria: **1 fila por tipo de pro
 
 ## 4. Diagrama de Classes
 
-![Diagrama de Classes](docs/diagram/Diagrama_CP2_C%23.png)
+<img width="1748" height="674" alt="Diagrama_CP2_C#" src="https://github.com/user-attachments/assets/88d28e25-a304-4574-83ba-0f3d9c4de81d" />
+
 
 > Arquivo fonte disponível em `docs/diagram/Diagrama_CP2_C#.drawio`
+
+**Link do Diagrama (draw.io):**
+
+[https://drive.google.com/file/d/1sKFWeG3nSd7Y5A0lASS0Ur4-SWXl5gcO/view?usp=sharing](https://drive.google.com/file/d/1sKFWeG3nSd7Y5A0lASS0Ur4-SWXl5gcO/view?usp=sharing)
 
 ---
 
@@ -167,14 +178,14 @@ A API estará disponível em:
   "nmCliente": "Renan Dias",
   "idAgencia": 1,
   "cpf": "12345678901",
-  "dataNascimento": "2003-02-16"
+  "dataNascimento": "2001-01-01"
 }
 ```
 **Response:** `201 Created`
 ```json
 {
   "cpf": "12345678901",
-  "dataNascimento": "2003-02-16T00:00:00",
+  "dataNascimento": "2001-01-01T00:00:00",
   "idCliente": 1,
   "nmCliente": "Renan Dias",
   "idAgencia": 1,
@@ -243,10 +254,10 @@ A API estará disponível em:
 ```json
 {
   "idCliente": 1,
-  "nmCliente": "Renan Dias Utida Atualizado",
+  "nmCliente": "Renan Dias Atualizado",
   "idAgencia": 1,
   "cpf": "12345678901",
-  "dataNascimento": "2003-02-16"
+  "dataNascimento": "2002-02-02"
 }
 ```
 **Response:** `204 No Content`
